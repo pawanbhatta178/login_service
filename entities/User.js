@@ -1,9 +1,9 @@
 
 
-const createUser = ({email, displayName, password}) => {
+const createUser = ({email, username, password}) => {
     return {
         email,
-        displayName,
+        username,
         password
     }
 }

@@ -25,6 +25,9 @@ app.delete('/logout', (req, res) => {
 })
 
 app.post('/login', (req, res) => {
+  console.log(process.env.ACCESS_TOKEN_SECRET);
+  console.log(process.env.REFRESH_TOKEN_SECRET);
+
   // Authenticate User
 
   const username = req.body.username
@@ -37,7 +40,7 @@ app.post('/login', (req, res) => {
 })
 
 function generateAccessToken(user) {
-  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15s' })
+  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '3m' })
 }
 
-app.listen(4000)
+app.listen(5000)

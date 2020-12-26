@@ -5,7 +5,6 @@ const decodedToken = (headers, requireAuth = true) => {
   if (header){
     const token = header.replace('Bearer ', '');
       const decoded = jwt.verify(token, 'supersecret');
-      console.log(decoded);
     return decoded;
   }
   if (requireAuth) {

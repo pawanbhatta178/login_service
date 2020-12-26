@@ -7,9 +7,14 @@ const { decodedToken } = require('./decodedToken');
     Query: {
         users: async (root, args, {headers }) => { 
             const decoded = decodedToken(headers);
+            return 
+            [
+                { ...decoded }
+            ];
+            
+            },
         },
-        },
-        Mutation: {
+    Mutation: {
             signupUser: async (root, args,{headers}) => {
                 const { data: { email, name, password } } = args;
                 const newUser = {

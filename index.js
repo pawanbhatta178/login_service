@@ -10,7 +10,7 @@ app.use(express.json());
 const pool = require('./config/database');
 const port = process.env.port || 3000;
 
-const {addUserToBF,usernameExists,emailExists,userExists,saveBfState } = require('./bloomfilter/index');
+const {addUserToBF,usernameExists,emailExists,userExists } = require('./bloomfilter/index');
 const { User } = require('./entities/User');
 const main = async () => {
     try {
@@ -35,12 +35,22 @@ const main = async () => {
 
 
             //dbCheck
-           const ans=await  User({}).findOneWith({email:user.email})
-            console.log(ans);
-            // bcrypt.compareSync("B4c0/\/", hash); // true
+           const userData=await  User({}).findOneWith({email:user.email})
+            if (userData.length === 0) {
+                return res.status(400).json({
+                    status: 'error',
+                    error: 'email/username does not exist',
+                });
+            }
+            if (!bcrypt.compareSync(user.password, userData[0].password)) {
+                return res.status(400).json({
+                    status: 'error',
+                    error: 'password is incorrect',
+                });
+            }; 
 
             //returning token
-            const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
+            const token = jwt.sign({ id:userData[0].id }, process.env.ACCESS_TOKEN_SECRET);
             res.send({token})
         })
 

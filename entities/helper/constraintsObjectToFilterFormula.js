@@ -12,8 +12,6 @@ const constraintsToFilterFormula = (object) => {
         }
        
     })
-    console.log(filterFormula);
     return filterFormula;
 }
-constraintsToFilterFormula({ name: "pawan", password: "asasas" });
 module.exports = constraintsToFilterFormula;

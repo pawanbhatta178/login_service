@@ -10,16 +10,16 @@ app.use(express.json());
 const pool = require('./config/database');
 const port = process.env.port || 3000;
 
-const {addUserToBF,usernameExists,emailExists,userExists } = require('./bloomfilter/index');
-    
+const {addUserToBF,usernameExists,emailExists,userExists,saveBfState } = require('./bloomfilter/index');
+const { User } = require('./entities/User');
 const main = async () => {
     try {
         //making db connection
         const { rows } = await pool.query('SELECT NOW()');
-        console.log("🚀  Pg running: Executing SELECT NOW() -> ", rows);
+        console.log("🚀  [Postgres] Executing: SELECT NOW() -> ", rows);
 
     
-        app.post('/login', (req, res) => {
+        app.post('/login', async (req, res) => {
             const user = {
                 email:req.body?.email,
                 username: req.body?.username,
@@ -35,31 +35,33 @@ const main = async () => {
 
 
             //dbCheck
-
+           const ans=await  User({}).findOneWith({email:user.email})
+            console.log(ans);
             // bcrypt.compareSync("B4c0/\/", hash); // true
 
             //returning token
             const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
             res.send({token})
-          })
+        })
 
-        app.post('/register', (req, res) => {
+        app.post('/register', async (req, res) => {
 
-            const user = {
+            const newUserData = {
                 username: req.body?.username,
                 email: req.body?.email,
                 password: req.body.password,
-                country:req.body.country
+                country: req.body.country,
+                displayname:req.body.displayName
             };
 
-            if (emailExists(user)) {  //not a good idea but works with high probabilty
+            if (emailExists(newUserData)) {  //not a good idea but works with high probabilty
                 return res.status(400).json({
                     status: 'error',
                     error: 'email already registered',
                 });
             }
             
-            if (usernameExists(user)) {
+            if (usernameExists(newUserData)) {
                 return res.status(400).json({
                     status: 'error',
                     error: 'username already taken',
@@ -69,27 +71,37 @@ const main = async () => {
 
 
            //adding user to bloom filter if email and username are unique
-            addUserToBF(user);
+            addUserToBF(newUserData);
 
 
            //hashing user password
-           const hashedPW = bcrypt.hashSync(user.password, salt);
-            console.log(hashedPW);
+           const hashedPW = bcrypt.hashSync(newUserData.password, salt);
+           
+            const userDataWithHashPW = {
+                ...newUserData,
+                password:hashedPW
+            }
             //adding to db
-
-
-
+            const createdUser =await User(userDataWithHashPW).save();
+            if (createdUser.length === 0) {
+                return res.status(400).json({
+                    status: 'error',
+                    error: 'email/username must be unique',
+                });
+            }
             //returning token
-            const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
+            const token = jwt.sign({ id:createdUser[0].id }, process.env.ACCESS_TOKEN_SECRET);
              res.send({token})
         })
 
 
         //running server 
-      app.listen(port, console.log(`listening on ${port}`))
+        const server = app.listen(port, console.log(`🚀  Server running on ${port}`))
+        
+        
     }
     catch (err) {
-        console.log("Sth wrong with db connection: ERROR: ", err);
+        console.log("[Main] ERROR: ", err);
     }
 }
 main();

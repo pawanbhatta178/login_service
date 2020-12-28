@@ -1,5 +1,5 @@
-GET http://localhost:3000/posts
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSmltIiwiaWF0IjoxNjA4OTMxMTg4LCJleHAiOjE2MDg5MzEzNjh9.OilcdQGoZ5wvn5aMWi9VLlc7Wv-Q8lS5OWSeAZCVYuU
+GET http://localhost:3000/protected
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRkNjI5ZDgzLWQ0MTItNDY0NC1iNDFhLTFhZDM0MWNmZjc2MyIsInVzZXJuYW1lIjoicGF3YW4xNzhrOTlqampqayIsImRpc3BsYXlOYW1lIjoiUHJhYmhhdCBCaGF0dGEiLCJpYXQiOjE2MDkxNjc3MjgsImV4cCI6MTYwOTE2Nzc0OH0.v6nAi4zQwoTaNImOYRias2K9smHFi4pHs1f2DE2H-is
 
 ###
 
@@ -12,24 +12,33 @@ Content-Type: application/json
 }
 
 ###
+POST http://localhost:3000/token
+Content-Type: application/json
+
+{
+  "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImM5OTkwMWUwLTg2ODItNGY0Mi04MTc1LWU3NzNhNjc2MzBiOCIsInVzZXJuYW1lIjoicGF3YW4xNzg5OWpqampqamprIiwiZGlzcGxheU5hbWUiOiJQcmFiaGF0IEJoYXR0YSIsImlhdCI6MTYwOTE2NzQ1MX0.Sv25L4prWAvc4pu9F48YY8soP1mS8lFiKzzLVFspTis"
+}
+
+
+###
 
 POST http://localhost:3000/register
 Content-Type: application/json
 
 {
-  "username":"pawan178",
-  "email":"pawanbhatta178@gmail.com",
+  "username":"pawan178k99jjjjk",
+  "email":"pawanbhattka188jjnujjkj@gmail.com",
   "password":"pawan",
   "country":"Nepal",
-  "displayName":"Pawan Bhatta"
+  "displayName":"Prabhat Bhatta"
 }
 
 ###
-DELETE http://localhost:4000/logout
+POST http://localhost:3000/logout
 Content-Type: application/json
 
 {
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSmltIiwiaWF0IjoxNTY4NzU5OTIyfQ.RT6wszuCeFLwC_6ksmNMIELxiC5s-uRivfRxyZof5ag"
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImJhMTM0NjI4LTRmMDEtNDIxMy04ZWYyLWJiY2QxY2FkMmE2MCIsInVzZXJuYW1lIjoicGF3YW4xNzg5OTlqampqampqayIsImRpc3BsYXlOYW1lIjoiUHJhYmhhdCBCaGF0dGEiLCJpYXQiOjE2MDkxMTUyMjd9.O3y2xK7xlmsc4RaTfbxe4ClQZnCfxo5CcNFNT0yVhhE"
 }
 
 ###

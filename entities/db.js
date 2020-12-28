@@ -45,6 +45,20 @@ const db = (model ) => {
                 console.log(`[ERROR] while processing the query: ${query} \n`, err);
                 return [];
             }
+        },
+        deleteAllWith: async (constraints) => {
+            const tableName = model.constructor.name;
+            let query = `DELETE FROM ${tableName} where ${constraintsToFilterFormula(constraints)} RETURNING *`;
+            try {
+                const { rows } = await pool.query(query);
+                return rows;
+            }
+            catch (err) {
+                console.log(`[ERROR] while processing the query: ${query} \n`, err);
+                return [];
+            }
+
+
         }
 
        

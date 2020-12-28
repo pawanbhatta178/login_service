@@ -20,6 +20,5 @@ const User=({username,password,email,country,displayname})=>{
     }
     
 }
-// User({}).findAllWith({country:"nepal"}).then(res=>console.log(res));
 
 module.exports = { User };

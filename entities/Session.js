@@ -1,4 +1,4 @@
-
+const { db } = require('./db');
 
 class sessions{//schema must match table name in database
     constructor({ userId, token }) {
@@ -15,5 +15,7 @@ const Session=({userId, token})=>{
     }
     
 }
+
+
 
 module.exports = { Session};

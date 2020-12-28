@@ -1,5 +1,4 @@
 require('dotenv').config()
-
 const express = require('express');
 const app = express();
 const jwt = require('jsonwebtoken')
@@ -9,6 +8,7 @@ const salt = bcrypt.genSaltSync(10);
 
 app.use(express.json());
 app.use(cookieParser());
+
 const pool = require('./config/database');
 const port = process.env.port || 3000;
 
@@ -19,7 +19,6 @@ const { authenticateToken } = require('./middlewares/authenticateToken');
 const { generateAccessToken, generateRefreshToken } = require('./getJwtTokenObject');
 const { setHttpOnlyCookie } = require('./setHttpOnlyCookie');
 
-let refreshTokens = [];
 
 const main = async () => {
     try {
@@ -33,20 +32,32 @@ const main = async () => {
         })
 
 
-        app.post('/token', (req, res) => {
+        app.post('/token',  (req, res) => {
             const refreshToken = req.body.token;
-            if (refreshToken == null) return res.sendStatus(401)
-            if (!refreshTokens.includes(refreshToken)) return res.sendStatus(403)
-            jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
-                if (err) return res.sendStatus(403)
+            if (refreshToken == null) return res.sendStatus(401);
+            // if (!refreshTokens.includes(refreshToken)) return res.sendStatus(403);
+           
+            jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, async (err, user) => {
+                if (err) return res.sendStatus(403);
+                const sessions = await Session({}).findOneWith({ token: refreshToken });
+                if (sessions.length === 0) {
+                return res.sendStatus(403);
+                }
                 const accessToken = generateAccessToken(user);
                res.json({ token: accessToken })
             })
         })
         
-        app.post('/logout', (req, res) => {
-            refreshTokens=refreshTokens.filter(refreshToken => refreshToken !== req.body.token);
-            res.sendStatus(200);
+        app.post('/logout', async(req, res) => {
+            // refreshTokens=refreshTokens.filter(refreshToken => refreshToken !== req.body.token);
+            if (!req.body.token) {
+              return  res.sendStatus(400);
+            }
+            const deletedSessions = await Session({}).deleteAllWith({ token: req.body.token });
+            if (deletedSessions.length === 0) {
+               return res.sendStatus(400);
+            }
+            res.send({deleted:deletedSessions[0]});
         })
 
         app.post('/login', async (req, res) => {
@@ -82,8 +93,8 @@ const main = async () => {
             //returning token
             const token = generateAccessToken(userData[0]);
             const refreshToken = generateRefreshToken(userData[0]);
-            refreshTokens.push(refreshToken);
             setHttpOnlyCookie(res, { name: "refreshToken", value: refreshToken });
+            await Session({ userId: createdUser[0].id, token: refreshToken }).save();
             res.send({token})
         })
 
@@ -135,9 +146,9 @@ const main = async () => {
             //returning token
             const token = generateAccessToken(createdUser[0]);
             const refreshToken = generateRefreshToken(createdUser[0]);
-            refreshTokens.push(refreshToken);
             setHttpOnlyCookie(res, { name: "refreshToken", value: refreshToken });
-             res.send({token})
+            await Session({ userId: createdUser[0].id, token: refreshToken }).save();
+            res.send({ token });
         })
 
 

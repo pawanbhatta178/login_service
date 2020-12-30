@@ -7,7 +7,7 @@ POST http://localhost:3000/login
 Content-Type: application/json
 
 {
-  "email":"pawanbhattka1v8j8jjnujjkj@gmail.com",
+   "username":"pawan",
   "password":"pawan"
 }
 
@@ -26,8 +26,8 @@ POST http://localhost:3000/register
 Content-Type: application/json
 
 {
-  "username":"pawsan17sjdjxdnhm8",
-  "email":"pawanbhattsa1219121dds@gmail.com",
+  "username":"pawan",
+  "email":"pawan@gmail.com",
   "password":"pawan",
   "country":"Nepal",
   "displayName":"Pawan Bhatta"

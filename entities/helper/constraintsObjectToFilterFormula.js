@@ -1,5 +1,4 @@
 const constraintsToFilterFormula = (object) => {
-    console.log(object.name);
     let filterFormula = ``;
     const keys = Object.keys(object);
     const values = Object.values(object);

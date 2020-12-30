@@ -19,18 +19,14 @@ const { Session } = require('./entities/Session');
 const { authenticateToken } = require('./middlewares/authenticateToken');
 const { generateAccessToken, generateRefreshToken } = require('./getJwtTokenObject');
 const { setHttpOnlyCookie } = require('./setHttpOnlyCookie');
-const {get, set } = require("./config/redis");
 
 const main = async () => {
     try {
         //making db connection
         const { rows } = await pool.query('SELECT NOW()');
         console.log("🚀  [Postgres] Executing: SELECT NOW() -> ", rows);
-        
-        const res = await set("fsd", "aa");
-        
-        console.log(res);
-        app.get('/protected', authenticateToken,async (req, res) => {
+                
+        app.get('/protected', authenticateToken, async (req, res) => {
             res.json(req.user);
             
         })
@@ -81,7 +77,8 @@ const main = async () => {
 
 
             //dbCheck
-            const userData = await User({}).findOneWith({ email: user.email })
+            const userData = (user.email) ? await User({}).findOneWith({ email: user.email }) : await User({}).findOneWith({ username: user.username });
+          
             if (userData.length === 0) {
                 return res.status(400).json({
                     status: 'error',

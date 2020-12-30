@@ -46,7 +46,12 @@ const init = async () => {
         authBloomFilter = await getBfInstanceFromRedisData(authsKey);
     }
   }
- init();
+init().then(res => {
+    // console.log(emailsBloomFilter.buckets);
+    // console.log(usernameExists({ username: "pawan" }));
+    // console.log(userExists({email:"pawan@gmail.com",password:"pawan"}))
+    // console.log(userExists({username:"pawan",password:"pawan"}))
+ });
 
 
 const reset = async () => {
@@ -120,8 +125,6 @@ const userExists = ({ email, username, password }) => {
     }
     return false;
 }
-
-console.log(emailExists({ username: "pawsan17sjdjxdnhm8a" }));
 
 module.exports = {
     addUserToBF,

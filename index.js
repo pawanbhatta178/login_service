@@ -4,6 +4,7 @@ const app = express();
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs');
 const cookieParser = require('cookie-parser');
+
 const salt = bcrypt.genSaltSync(10);
 
 app.use(express.json());
@@ -12,20 +13,23 @@ app.use(cookieParser());
 const pool = require('./config/database');
 const port = process.env.port || 3000;
 
-const {addUserToBF,usernameExists,emailExists,userExists } = require('./bloomfilter/index');
+const {addUserToBF,usernameExists,emailExists,userExists } = require('./bloomfilter/bloomFilter');
 const { User } = require('./entities/User');
 const { Session } = require('./entities/Session');
 const { authenticateToken } = require('./middlewares/authenticateToken');
 const { generateAccessToken, generateRefreshToken } = require('./getJwtTokenObject');
 const { setHttpOnlyCookie } = require('./setHttpOnlyCookie');
-
+const {get, set } = require("./config/redis");
 
 const main = async () => {
     try {
         //making db connection
         const { rows } = await pool.query('SELECT NOW()');
         console.log("🚀  [Postgres] Executing: SELECT NOW() -> ", rows);
-
+        
+        const res = await set("fsd", "aa");
+        
+        console.log(res);
         app.get('/protected', authenticateToken,async (req, res) => {
             res.json(req.user);
             
@@ -61,12 +65,13 @@ const main = async () => {
         })
 
         app.post('/login', async (req, res) => {
+
             const user = {
                 email: req.body?.email,
                 username: req.body?.username,
                 password: req.body.password
             };
-            //bloomFilterCheck
+            // bloomFilterCheck
             if (!userExists(user)) {
                 return res.status(400).json({
                     status: 'error',
@@ -94,7 +99,7 @@ const main = async () => {
             const token = generateAccessToken(userData[0]);
             const refreshToken = generateRefreshToken(userData[0]);
             setHttpOnlyCookie(res, { name: "refreshToken", value: refreshToken });
-            await Session({ userId: createdUser[0].id, token: refreshToken }).save();
+            await Session({ userId: userData[0].id, token: refreshToken }).save();
             res.send({token})
         })
 

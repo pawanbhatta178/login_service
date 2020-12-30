@@ -1,5 +1,5 @@
 GET http://localhost:3000/protected
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRkNjI5ZDgzLWQ0MTItNDY0NC1iNDFhLTFhZDM0MWNmZjc2MyIsInVzZXJuYW1lIjoicGF3YW4xNzhrOTlqampqayIsImRpc3BsYXlOYW1lIjoiUHJhYmhhdCBCaGF0dGEiLCJpYXQiOjE2MDkxNjc3MjgsImV4cCI6MTYwOTE2Nzc0OH0.v6nAi4zQwoTaNImOYRias2K9smHFi4pHs1f2DE2H-is
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQxNDExZDIxLTE0ZTItNGM0NC1hMTUyLTg2ZjEwYjI5Mzc1NyIsInVzZXJuYW1lIjoicGF3YW4xN3Nqam5obTgiLCJpYXQiOjE2MDkxOTQxMzEsImV4cCI6MTYwOTE5NDE1MX0.LvsGZU0JnwY81Ahz84oJzJ0OEdFpk6e6lN0RX0a1Uu8
 
 ###
 
@@ -7,8 +7,8 @@ POST http://localhost:3000/login
 Content-Type: application/json
 
 {
-  "email":"pawanbhatta178@gmail.com",
-  "password":"pawa"
+  "email":"pawanbhattka1v8j8jjnujjkj@gmail.com",
+  "password":"pawan"
 }
 
 ###
@@ -16,7 +16,7 @@ POST http://localhost:3000/token
 Content-Type: application/json
 
 {
-  "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImM5OTkwMWUwLTg2ODItNGY0Mi04MTc1LWU3NzNhNjc2MzBiOCIsInVzZXJuYW1lIjoicGF3YW4xNzg5OWpqampqamprIiwiZGlzcGxheU5hbWUiOiJQcmFiaGF0IEJoYXR0YSIsImlhdCI6MTYwOTE2NzQ1MX0.Sv25L4prWAvc4pu9F48YY8soP1mS8lFiKzzLVFspTis"
+  "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQxNDExZDIxLTE0ZTItNGM0NC1hMTUyLTg2ZjEwYjI5Mzc1NyIsInVzZXJuYW1lIjoicGF3YW4xN3Nqam5obTgiLCJkaXNwbGF5TmFtZSI6IlBhd2FuIEJoYXR0YSIsImlhdCI6MTYwOTE5NDA4Nn0.uJ_3Y_WJeCyuQcE3BwGlPcaqPTJMDFawdGq75e9FceA"
 }
 
 
@@ -26,11 +26,11 @@ POST http://localhost:3000/register
 Content-Type: application/json
 
 {
-  "username":"pawan178k99jjjjk",
-  "email":"pawanbhattka188jjnujjkj@gmail.com",
+  "username":"pawsan17sjdjxdnhm8",
+  "email":"pawanbhattsa1219121dds@gmail.com",
   "password":"pawan",
   "country":"Nepal",
-  "displayName":"Prabhat Bhatta"
+  "displayName":"Pawan Bhatta"
 }
 
 ###
@@ -38,7 +38,7 @@ POST http://localhost:3000/logout
 Content-Type: application/json
 
 {
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImJhMTM0NjI4LTRmMDEtNDIxMy04ZWYyLWJiY2QxY2FkMmE2MCIsInVzZXJuYW1lIjoicGF3YW4xNzg5OTlqampqampqayIsImRpc3BsYXlOYW1lIjoiUHJhYmhhdCBCaGF0dGEiLCJpYXQiOjE2MDkxMTUyMjd9.O3y2xK7xlmsc4RaTfbxe4ClQZnCfxo5CcNFNT0yVhhE"
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNhYjBjOGY3LTc0MmQtNGIwOS1hYzdlLWRjYmVmY2Y4ODZiOCIsInVzZXJuYW1lIjoicGF3YW4xN204IiwiZGlzcGxheU5hbWUiOiJQcmFiaGF0IEJoYXR0YSIsImlhdCI6MTYwOTE5MDMxNX0.PHAS5ibrQhqbG5fEjl-5UKGgKtus8arKURH5o-W6GZo"
 }
 
 ###

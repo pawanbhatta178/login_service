@@ -1,6 +1,7 @@
 const pool=require('../config/database');
 const { arrayToOrderList,arrayToOrderListWithQuote} = require('./helper/arrayToOrderList');
 const constraintsToFilterFormula = require('./helper/constraintsObjectToFilterFormula');
+const getSetCondition = require('./helper/getSetCondition');
 
 //basic functionality of databases
 const db = (model ) => {
@@ -58,7 +59,18 @@ const db = (model ) => {
                 return [];
             }
 
-
+        },
+        updateOneWith: async (filterConstraints, dataToUpdate ) => {
+            const tableName = model.constructor.name;
+            let query = `UPDATE ${tableName} SET ${getSetCondition(dataToUpdate)} where ${constraintsToFilterFormula(filterConstraints)} RETURNING *`;
+            try {
+                const { rows } = await pool.query(query);
+                return rows;
+            }
+            catch (err) {
+                console.log(`[ERROR] while processing the query: ${query} \n`, err);
+                return [];
+            }
         }
 
        

@@ -15,10 +15,10 @@ const port = process.env.port || 3000;
 
 const {addUserToBF,usernameExists,emailExists,userExists } = require('./bloomfilter/bloomFilter');
 const { User } = require('./entities/User');
-const { Session } = require('./entities/Session');
 const { authenticateToken } = require('./middlewares/authenticateToken');
 const { generateAccessToken, generateRefreshToken } = require('./getJwtTokenObject');
 const { setHttpOnlyCookie } = require('./setHttpOnlyCookie');
+const { SessionCache } = require('./entities/SessionCache');
 
 const main = async () => {
     try {
@@ -39,25 +39,40 @@ const main = async () => {
            
             jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, async (err, user) => {
                 if (err) return res.sendStatus(403);
-                const sessions = await Session({}).findOneWith({ token: refreshToken });
-                if (sessions.length === 0) {
-                return res.sendStatus(403);
+                // const sessions = await Session({}).findOneWith({ token: refreshToken });
+                // if (sessions.length === 0) {
+                // return res.sendStatus(403);
+                // }
+                const sessionExists = await SessionCache({ userId: user.id }).exists({ sessionCode: refreshToken });
+                if (!sessionExists) {
+                 return res.sendStatus(403);
                 }
                 const accessToken = generateAccessToken(user);
-               res.json({ token: accessToken })
+                res.json({ token: accessToken });
             })
         })
         
         app.post('/logout', async(req, res) => {
             // refreshTokens=refreshTokens.filter(refreshToken => refreshToken !== req.body.token);
-            if (!req.body.token) {
+            const token = req.body?.token;
+            const deleteAllSession = req.body?.deleteAllSession;
+            if (!token) {
               return  res.sendStatus(400);
             }
-            const deletedSessions = await Session({}).deleteAllWith({ token: req.body.token });
-            if (deletedSessions.length === 0) {
-               return res.sendStatus(400);
-            }
-            res.send({deleted:deletedSessions[0]});
+            // const deletedSessions = await Session({}).deleteAllWith({ token: req.body.token });
+            // if (deletedSessions.length === 0) {
+            //    return res.sendStatus(400);
+            // }
+            jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, async (err, user) => {
+                if (err) return res.sendStatus(403);
+                if (deleteAllSession) {
+                    const deletedAll = await SessionCache({ userId: user.id }).deleteAll();
+                    return res.json({deletedAll});
+                }
+                const deleted=await SessionCache({ userId:user.id}).delete({sessionCode:token})
+                res.send({deleted});
+            });
+   
         })
 
         app.post('/login', async (req, res) => {
@@ -95,9 +110,14 @@ const main = async () => {
             //returning token
             const token = generateAccessToken(userData[0]);
             const refreshToken = generateRefreshToken(userData[0]);
+            const added = await SessionCache({ userId: userData[0].id }).add({ sessionCode: refreshToken });
+            if (!added) {
+               return res.json({
+                    error:"Cannot create a new session because too many sessions are active"
+                })
+            }
             setHttpOnlyCookie(res, { name: "refreshToken", value: refreshToken });
-            await Session({ userId: userData[0].id, token: refreshToken }).save();
-            res.send({token})
+            res.send({ token });
         })
 
         app.post('/register', async (req, res) => {
@@ -124,12 +144,9 @@ const main = async () => {
                 });
             }
 
-
-
            //adding user to bloom filter if email and username are unique
             addUserToBF(newUserData);
-
-
+            
            //hashing user password
            const hashedPW = bcrypt.hashSync(newUserData.password, salt);
            
@@ -149,7 +166,7 @@ const main = async () => {
             const token = generateAccessToken(createdUser[0]);
             const refreshToken = generateRefreshToken(createdUser[0]);
             setHttpOnlyCookie(res, { name: "refreshToken", value: refreshToken });
-            await Session({ userId: createdUser[0].id, token: refreshToken }).save();
+            await SessionCache({ userId: createdUser[0].id }).add({ sessionCode: refreshToken });
             res.send({ token });
         })
 

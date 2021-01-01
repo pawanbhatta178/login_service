@@ -1,5 +1,5 @@
 GET http://localhost:3000/protected
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQxNDExZDIxLTE0ZTItNGM0NC1hMTUyLTg2ZjEwYjI5Mzc1NyIsInVzZXJuYW1lIjoicGF3YW4xN3Nqam5obTgiLCJpYXQiOjE2MDkxOTQxMzEsImV4cCI6MTYwOTE5NDE1MX0.LvsGZU0JnwY81Ahz84oJzJ0OEdFpk6e6lN0RX0a1Uu8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjdjZTllYzRhLTY1ZmEtNDA0YS1iYzhmLTBiNTQ0OWEyOWIwOSIsInVzZXJuYW1lIjoicGF3YW5oaCIsImlhdCI6MTYwOTQ3MTg2OSwiZXhwIjoxNjA5NDcxODg5fQ.V5P5pLrZ6Cm6Gr88YJNqMwRoXqde100PC6AGsw6RrzY
 
 ###
 
@@ -7,7 +7,7 @@ POST http://localhost:3000/login
 Content-Type: application/json
 
 {
-   "username":"pawan",
+   "username":"pawanhh",
   "password":"pawan"
 }
 
@@ -16,7 +16,7 @@ POST http://localhost:3000/token
 Content-Type: application/json
 
 {
-  "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQxNDExZDIxLTE0ZTItNGM0NC1hMTUyLTg2ZjEwYjI5Mzc1NyIsInVzZXJuYW1lIjoicGF3YW4xN3Nqam5obTgiLCJkaXNwbGF5TmFtZSI6IlBhd2FuIEJoYXR0YSIsImlhdCI6MTYwOTE5NDA4Nn0.uJ_3Y_WJeCyuQcE3BwGlPcaqPTJMDFawdGq75e9FceA"
+  "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjdjZTllYzRhLTY1ZmEtNDA0YS1iYzhmLTBiNTQ0OWEyOWIwOSIsInVzZXJuYW1lIjoicGF3YW5oaCIsImRpc3BsYXlOYW1lIjoiUGF3YW4gQmhhdHRhIiwiaWF0IjoxNjA5NDczMjAxfQ.UeJWNe8DeM-BXF5dEdf5JKt8igUbYr6nW5NlBJWmtUE"
 }
 
 
@@ -26,8 +26,8 @@ POST http://localhost:3000/register
 Content-Type: application/json
 
 {
-  "username":"pawan",
-  "email":"pawan@gmail.com",
+  "username":"pawanhh",
+  "email":"pawanjj@gmail.com",
   "password":"pawan",
   "country":"Nepal",
   "displayName":"Pawan Bhatta"
@@ -38,7 +38,8 @@ POST http://localhost:3000/logout
 Content-Type: application/json
 
 {
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNhYjBjOGY3LTc0MmQtNGIwOS1hYzdlLWRjYmVmY2Y4ODZiOCIsInVzZXJuYW1lIjoicGF3YW4xN204IiwiZGlzcGxheU5hbWUiOiJQcmFiaGF0IEJoYXR0YSIsImlhdCI6MTYwOTE5MDMxNX0.PHAS5ibrQhqbG5fEjl-5UKGgKtus8arKURH5o-W6GZo"
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjdjZTllYzRhLTY1ZmEtNDA0YS1iYzhmLTBiNTQ0OWEyOWIwOSIsInVzZXJuYW1lIjoicGF3YW5oaCIsImRpc3BsYXlOYW1lIjoiUGF3YW4gQmhhdHRhIiwiaWF0IjoxNjA5NDczMzA5fQ.Z6eWKNFSZ_hGje2P-6bI1fuS-YaG-96xii1vY4uAhUg",
+  "deleteAllSession":"true"
 }
 
 ###

@@ -1,4 +1,4 @@
-const { sismember,scard,sadd , srem} = require("../config/redis");
+const { sismember,scard,sadd , srem, del} = require("../config/redis");
 const { addPrefixToRedisKey } = require("./helper/addPrefixToRedisKey");
 const SESSION_PREFIX = 'userSession';
 
@@ -37,6 +37,19 @@ const SessionCache =  ({userId}) => {
         delete: async ({ sessionCode }) => {
             try {
                 const res = await srem(keyName,sessionCode);
+                if (res === 1) {
+                    return true;
+                }
+                return false;
+            }
+            catch (err) {
+                console.log(err);
+                return false;
+            }
+        },
+        deleteAll: async () => {
+            try {
+                const res = await del(keyName);
                 if (res === 1) {
                     return true;
                 }

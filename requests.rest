@@ -1,5 +1,5 @@
 GET http://localhost:3000/protected
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjdjZTllYzRhLTY1ZmEtNDA0YS1iYzhmLTBiNTQ0OWEyOWIwOSIsInVzZXJuYW1lIjoicGF3YW5oaCIsImlhdCI6MTYwOTQ3MTg2OSwiZXhwIjoxNjA5NDcxODg5fQ.V5P5pLrZ6Cm6Gr88YJNqMwRoXqde100PC6AGsw6RrzY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMjNkNjcwLWMzNGMtNDdiOC04ZWM0LTBmYjlmZTk0ZTlmZCIsInVzZXJuYW1lIjoicGF3YW4iLCJpYXQiOjE2MDk0NzQwMzUsImV4cCI6MTYwOTQ3NDA1NX0.beSDKmH8C2x0AZBRlzckxH6Bm85KeshJ-phm1ImjGCg
 
 ###
 
@@ -7,7 +7,7 @@ POST http://localhost:3000/login
 Content-Type: application/json
 
 {
-   "username":"pawanhh",
+   "username":"pawan",
   "password":"pawan"
 }
 
@@ -16,7 +16,7 @@ POST http://localhost:3000/token
 Content-Type: application/json
 
 {
-  "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjdjZTllYzRhLTY1ZmEtNDA0YS1iYzhmLTBiNTQ0OWEyOWIwOSIsInVzZXJuYW1lIjoicGF3YW5oaCIsImRpc3BsYXlOYW1lIjoiUGF3YW4gQmhhdHRhIiwiaWF0IjoxNjA5NDczMjAxfQ.UeJWNe8DeM-BXF5dEdf5JKt8igUbYr6nW5NlBJWmtUE"
+  "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMjNkNjcwLWMzNGMtNDdiOC04ZWM0LTBmYjlmZTk0ZTlmZCIsInVzZXJuYW1lIjoicGF3YW4iLCJkaXNwbGF5TmFtZSI6IlBhd2FuIEJoYXR0YSIsImlhdCI6MTYwOTQ3Mzk5NH0.h9DS1QwYJbWQ4Nt26no0yC65tTZm7Lgtn9BiuWRXn1M"
 }
 
 

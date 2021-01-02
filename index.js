@@ -12,6 +12,8 @@ app.use(cookieParser());
 
 const pool = require('./config/database');
 const port = process.env.port || 3000;
+const baseUri = `http://localhost:${port}`;
+
 
 const {addUserToBF,usernameExists,emailExists,userExists } = require('./bloomfilter/bloomFilter');
 const { User } = require('./entities/User');
@@ -19,6 +21,7 @@ const { authenticateToken } = require('./middlewares/authenticateToken');
 const { generateAccessToken, generateRefreshToken } = require('./getJwtTokenObject');
 const { setHttpOnlyCookie } = require('./setHttpOnlyCookie');
 const { SessionCache } = require('./entities/SessionCache');
+const { RecoverAccount } = require('./entities/RecoverAccount');
 
 const main = async () => {
     try {
@@ -31,6 +34,39 @@ const main = async () => {
             
         })
 
+
+        app.post('/recover', async (req, res) => {
+            const { email, username } = req.body;
+
+            if (!email && !username) {
+                return res.status(400);
+            }
+                const user = username ? await User({}).findOneWith({ username }) : await User({}).findOneWith({ email });
+                if (user.length === 0) {
+                    return res.json({
+                        error:"Could not locate associated account",
+                        message:"Could not find the username"
+                    })
+                }
+               
+                res.json({
+                    message:"Please enter the 6 digit code sent to your email to recover your account",
+                    success:true,
+                });
+                const recoveryKey =await  RecoverAccount({ id: user[0].id }).generateRecoverKey();
+                RecoverAccount({ id: user[0].id }).sendRecoverLink({ email: user[0].email, url: `${baseUri}/recover?id=${user[0].id}&recoveryKey=${recoveryKey}` });
+                return;
+            
+        })
+
+        app.get('/recover', async (req, res) => {
+            const { id, recoveryKey } = req.query;
+            const recovered=await RecoverAccount({ id }).recover({ code: recoveryKey });
+            if (recovered) {
+                return res.json({recovered:`Recovered ${id}`});
+            }
+            res.status(400).send("Bad req");
+        })
 
         app.post('/token',  (req, res) => {
             const refreshToken = req.body.token;

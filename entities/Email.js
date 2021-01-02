@@ -1,4 +1,3 @@
-const { UserInputError } = require("apollo-server");
 const { Mailer } = require("../config/Mailer");
 const { setex, get} = require("../config/redis");
 const { User } = require("./User");

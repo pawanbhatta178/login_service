@@ -2,7 +2,17 @@ GET http://localhost:3000/protected
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMjNkNjcwLWMzNGMtNDdiOC04ZWM0LTBmYjlmZTk0ZTlmZCIsInVzZXJuYW1lIjoicGF3YW4iLCJpYXQiOjE2MDk0NzQwMzUsImV4cCI6MTYwOTQ3NDA1NX0.beSDKmH8C2x0AZBRlzckxH6Bm85KeshJ-phm1ImjGCg
 
 ###
+POST http://localhost:3000/recover
+Content-Type: application/json
 
+{
+   "username":"prabhat"
+}
+
+
+
+
+###
 POST http://localhost:3000/login
 Content-Type: application/json
 

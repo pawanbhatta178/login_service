@@ -76,8 +76,8 @@ const main = async () => {
                   return res.json({
                     error:"Cannot create a new session because too many sessions are active"
                 })
-            }
-                 setHttpOnlyCookie(res, { name: "refreshToken", value: refreshToken });
+                 }
+                setHttpOnlyCookie(res, { name: "refreshToken", value: refreshToken });
                 res.json({ token: accessToken });
         })
 

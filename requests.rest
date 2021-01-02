@@ -1,23 +1,42 @@
 GET http://localhost:3000/protected
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMjNkNjcwLWMzNGMtNDdiOC04ZWM0LTBmYjlmZTk0ZTlmZCIsInVzZXJuYW1lIjoicGF3YW4iLCJpYXQiOjE2MDk0NzQwMzUsImV4cCI6MTYwOTQ3NDA1NX0.beSDKmH8C2x0AZBRlzckxH6Bm85KeshJ-phm1ImjGCg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMzYzNTk5LTIzMGQtNDMxYy05NzRiLTNjOTVlYmMwN2ZlZSIsInVzZXJuYW1lIjoicGF3IiwiaWF0IjoxNjA5NjE0MTUwLCJleHAiOjE2MDk2MTQxOTB9.PideQZGcg7F9TTLeWk1vdt5TslLMmrj0P4MaqXhJ5Aw
 
 ###
+POST http://localhost:3000/changePassword
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMzYzNTk5LTIzMGQtNDMxYy05NzRiLTNjOTVlYmMwN2ZlZSIsInVzZXJuYW1lIjoicGF3IiwiaWF0IjoxNjA5NjE0NDM2LCJleHAiOjE2MDk2MTQ0NzZ9.PRrWo_ELcx4gAHmcZkTeoBtvZpFhXrQhobOiRMs7nw4
+Content-Type: application/json
+
+{
+   "newPassword":"prabhat"
+}
+####
+
+POST http://localhost:3000/exists
+Content-Type: application/json
+
+{
+   "email":"prabhat"
+}
+
+
+###
+GET http://localhost:3000/recover?id=62363599-230d-431c-974b-3c95ebc07fee&recoveryKey=610862
+###
+
+
 POST http://localhost:3000/recover
 Content-Type: application/json
 
 {
-   "username":"prabhat"
+     "email":"paw@gmail.com"
 }
-
-
-
 
 ###
 POST http://localhost:3000/login
 Content-Type: application/json
 
 {
-   "username":"pawan",
+   "email":"paw@gmail.com",
   "password":"pawan"
 }
 
@@ -26,7 +45,7 @@ POST http://localhost:3000/token
 Content-Type: application/json
 
 {
-  "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMjNkNjcwLWMzNGMtNDdiOC04ZWM0LTBmYjlmZTk0ZTlmZCIsInVzZXJuYW1lIjoicGF3YW4iLCJkaXNwbGF5TmFtZSI6IlBhd2FuIEJoYXR0YSIsImlhdCI6MTYwOTQ3Mzk5NH0.h9DS1QwYJbWQ4Nt26no0yC65tTZm7Lgtn9BiuWRXn1M"
+  "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMzYzNTk5LTIzMGQtNDMxYy05NzRiLTNjOTVlYmMwN2ZlZSIsInVzZXJuYW1lIjoicGF3IiwiZGlzcGxheU5hbWUiOiJQYXdhbiBCaGF0dGEiLCJpYXQiOjE2MDk2MTQxMjR9.quCBGDHtRM45xGMsW8Y1qVOGhhOzs9DypjBxoIPcWrM"
 }
 
 
@@ -36,8 +55,8 @@ POST http://localhost:3000/register
 Content-Type: application/json
 
 {
-  "username":"pawanhh",
-  "email":"pawanjj@gmail.com",
+  "username":"paw",
+  "email":"paw@gmail.com",
   "password":"pawan",
   "country":"Nepal",
   "displayName":"Pawan Bhatta"

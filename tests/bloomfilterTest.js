@@ -3,7 +3,7 @@ const {
     addUserToBF,
     usernameExists,
     emailExists,
-    userExists }= require('./bloomfilter/index');
+    userExists }= require('../bloomfilter/index');
 
 const user1 = { email: "pawan@gmail.com", password: "pawan" };
 const user2 = { username: "pawan123", password: "123" };

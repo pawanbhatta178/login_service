@@ -10,7 +10,7 @@ const getJwtTokenContent= (completeDetail) => {
 }
 const generateAccessToken = (userDetail) => {
    const tokenContent= getJwtTokenContent(userDetail);
-   return jwt.sign(tokenContent, process.env.ACCESS_TOKEN_SECRET,{expiresIn:'20s'});
+   return jwt.sign(tokenContent, process.env.ACCESS_TOKEN_SECRET,{expiresIn:'40s'});
 }
 
 const generateRefreshToken = (userDetail) => {

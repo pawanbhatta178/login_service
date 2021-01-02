@@ -61,12 +61,38 @@ const main = async () => {
 
         app.get('/recover', async (req, res) => {
             const { id, recoveryKey } = req.query;
-            const recovered=await RecoverAccount({ id }).recover({ code: recoveryKey });
-            if (recovered) {
-                return res.json({recovered:`Recovered ${id}`});
+            const recovered = await RecoverAccount({ id }).recover({ code: recoveryKey });
+            if (!recovered) {
+                return res.status(400).send("Bad req");
             }
-            res.status(400).send("Bad req");
+                const user = await User({}).findOneWith({ id });
+                if (user.length === 0) {
+                    return res.json({error:"user does not exists"})
+                }
+                const accessToken = generateAccessToken(user[0]);
+                 const refreshToken = generateRefreshToken(user[0]);
+                 const added = await SessionCache({ userId: user[0].id }).add({ sessionCode: refreshToken });
+                  if (!added) {
+                  return res.json({
+                    error:"Cannot create a new session because too many sessions are active"
+                })
+            }
+                 setHttpOnlyCookie(res, { name: "refreshToken", value: refreshToken });
+                res.json({ token: accessToken });
         })
+
+
+        app.post('/changePassword', authenticateToken, async (req, res) => {
+            const { id } = req.user;
+            const { newPassword } = req.body;
+            const hashedPW = bcrypt.hashSync(newPassword, salt);
+            const user= await User({}).updateOneWith({id},{password:hashedPW})
+            if (user.length==0) {
+                return res.json({error:"Cannot change the password"})
+            }
+            res.json({success:"Password changed successfully."});
+       })
+
 
         app.post('/token',  (req, res) => {
             const refreshToken = req.body.token;
@@ -75,10 +101,13 @@ const main = async () => {
            
             jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, async (err, user) => {
                 if (err) return res.sendStatus(403);
+                //DB Sessions
                 // const sessions = await Session({}).findOneWith({ token: refreshToken });
                 // if (sessions.length === 0) {
                 // return res.sendStatus(403);
                 // }
+
+                //redis Sessions
                 const sessionExists = await SessionCache({ userId: user.id }).exists({ sessionCode: refreshToken });
                 if (!sessionExists) {
                  return res.sendStatus(403);
@@ -118,13 +147,14 @@ const main = async () => {
                 username: req.body?.username,
                 password: req.body.password
             };
+
             // bloomFilterCheck
-            if (!userExists(user)) {
-                return res.status(400).json({
-                    status: 'error',
-                    error: 'username/email or password incorrectly entered',
-                });
-            };
+            // if (!userExists(user)) {
+            //     return res.status(400).json({
+            //         status: 'error',
+            //         error: 'username/email or password incorrectly entered',
+            //     });
+            // };
 
 
             //dbCheck
@@ -155,6 +185,13 @@ const main = async () => {
             setHttpOnlyCookie(res, { name: "refreshToken", value: refreshToken });
             res.send({ token });
         })
+
+        app.post('/exists', async (req, res) => {
+            const { username, email } = req.body;
+            const exists = username ? usernameExists({ username }) : emailExists({ email });
+            return res.json({ exists })
+        })
+        
 
         app.post('/register', async (req, res) => {
 

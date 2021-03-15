@@ -15,7 +15,7 @@ POST http://localhost:3000/exists
 Content-Type: application/json
 
 {
-   "email":"prabhat"
+   "username":"paw"
 }
 
 
@@ -36,7 +36,7 @@ POST http://localhost:3000/login
 Content-Type: application/json
 
 {
-   "username":"pawan",
+   "username":"pawanasas",
   "password":"pawan"
 }
 

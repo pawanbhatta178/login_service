@@ -15,7 +15,7 @@ app.use(
     origin:
       process.env.NODE_ENV === "production"
         ? "https://www.codingrant.com"
-        : "http://localhost:3001",
+        : "https://www.codingrant.com",
   })
 );
 const pool = require("./config/database");
@@ -238,6 +238,7 @@ const main = async () => {
     });
 
     app.post("/register", async (req, res) => {
+      console.log("register hit");
       const newUserData = {
         username: req.body?.username,
         email: req.body?.email,
